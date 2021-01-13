@@ -1,5 +1,8 @@
 const formatAmount = (amount: number) => {
     const number = typeof amount === 'number' ? amount.toFixed(0).toString() : 'N/A'
+    if (number.length > 3 && number.length < 7) {
+        return `${number.slice(0, -3)},${number.slice(number.length - 3)}`
+    }
     if (number.length > 6 && number.length < 10) {
         return `${number.slice(0, -6)} M`
     }

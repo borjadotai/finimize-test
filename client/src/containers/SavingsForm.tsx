@@ -36,7 +36,7 @@ const SavingsForm = ({ state, setState, defaultInterestRate, data }: Props) => {
                 name="Interest Rate"
                 defaultValue={defaultInterestRate}
                 min={0}
-                max={10}
+                max={15}
                 step={0.5}
                 onChangeEnd={(val) => handleChange(ValueTypes.InterestRate, val)}
             />

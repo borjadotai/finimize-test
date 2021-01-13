@@ -22,29 +22,28 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-// type RequestType = {
-//   initialSavings: number | null
-//   monthlyDeposits: number | null
-//   interestRate: number | null
-// }
-
 const calculateSavings = (
   initialSavings: any,
   monthlyDeposits: any,
   interestRate: any
 ) => {
   let i = 0;
+  let b = 0;
   let lastValue = 0;
   let yearlyAmounts = [];
   let result;
-  while (i <= 50) {
+  while (i <= 600) {
     lastValue != 0
-      ? (result = (lastValue + monthlyDeposits * 12) * (1 + interestRate / 10))
+      ? (result = (lastValue + monthlyDeposits) * (1 + interestRate / 12 / 100))
       : (result =
-          (initialSavings + monthlyDeposits * 12) * (1 + interestRate / 10));
-    yearlyAmounts.push(result);
+          (initialSavings + monthlyDeposits) * (1 + interestRate / 12 / 100));
+    if (b == 12) {
+      yearlyAmounts.push(result);
+      b = 0;
+    }
     lastValue = result;
     i++;
+    b++;
   }
   return yearlyAmounts;
 };
