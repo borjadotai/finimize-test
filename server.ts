@@ -54,11 +54,11 @@ app.get("/", (req, res) => {
   const { initialSavings, monthlyDeposits, interestRate } = req.query;
   // Parse them into numbers
   const parsedInitialSavings =
-    typeof initialSavings === "string" && parseInt(initialSavings);
+    typeof initialSavings === "string" && Number(initialSavings);
   const parseMonthlyDeposits =
-    typeof monthlyDeposits === "string" && parseInt(monthlyDeposits);
+    typeof monthlyDeposits === "string" && Number(monthlyDeposits);
   const parseInterestRate =
-    typeof interestRate === "string" && parseInt(interestRate);
+    typeof interestRate === "string" && Number(interestRate);
 
   // Calculate savings over time
   const savingsOverTime = calculateSavings(
