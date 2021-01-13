@@ -8,7 +8,7 @@ import Predictions from './Predictions'
 const Savings = () => {
     // Setting an initial default value to initialise the state and the UI
     const defaultInterestRate = 2
-    // Piece of state for api received data with fake data fallback
+    // Piece of state for api received data with mock data fallback
     const [data, setData] = useState<number[]>([100, 150, 180, 210, 240, 350])
     // Initialise form state
     const [state, setState] = useState<StateType>({
@@ -20,11 +20,7 @@ const Savings = () => {
     useEffect(() => {
         fetch(generateFetchUrl(state))
             .then((response) => response.json())
-            .then((data) =>
-                Array.isArray(data)
-                    ? setData(data)
-                    : console.log('Oh boy, something went wrong with the api calculations!')
-            )
+            .then((data) => setData(data))
     }, [state])
 
     return (

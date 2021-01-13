@@ -1,4 +1,5 @@
-const formatAmount = (amount: number) => {
+// This amount formatter could be re-used as a util across the project
+export const formatAmount = (amount: number) => {
     const number = typeof amount === 'number' ? amount.toFixed(0).toString() : 'N/A'
     if (number.length > 3 && number.length < 7) {
         return `${number.slice(0, -3)},${number.slice(number.length - 3)}`
