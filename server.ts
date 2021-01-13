@@ -36,16 +36,15 @@ const calculateSavings = (
   monthlyDeposits: number,
   interestRate: number
 ) => {
-  let i = 0;
-  let lastValue = 0;
+  let i = 1;
+  let lastValue = initialSavings;
   let annualAmounts = [];
   let result;
   while (i <= 600) {
-    i++;
-    let principal = lastValue != 0 ? lastValue : initialSavings;
-    result = applyInterestRate(principal, monthlyDeposits, interestRate);
+    result = applyInterestRate(lastValue, monthlyDeposits, interestRate);
     lastValue = result;
     i % 12 == 0 && annualAmounts.push(result);
+    i++;
   }
 
   return annualAmounts;
