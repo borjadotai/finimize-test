@@ -2,6 +2,7 @@ import express from "express";
 
 const app = express();
 
+// CORS
 app.use(function (req, res, next) {
   if (req.headers.origin) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -22,49 +23,55 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
+// Calculates current month saving applying corresponding interest
+const applyInterestRate = (
+  principal: number,
+  monthlyDeposit: number,
+  interestRate: number
+) => (principal + monthlyDeposit) * (1 + interestRate / 12 / 100);
+
+// Calculates all savings monthly and returns annual ones
 const calculateSavings = (
-  initialSavings: any,
-  monthlyDeposits: any,
-  interestRate: any
+  initialSavings: number,
+  monthlyDeposits: number,
+  interestRate: number
 ) => {
   let i = 0;
-  let b = 0;
   let lastValue = 0;
-  let yearlyAmounts = [];
+  let annualAmounts = [];
   let result;
   while (i <= 600) {
-    lastValue != 0
-      ? (result = (lastValue + monthlyDeposits) * (1 + interestRate / 12 / 100))
-      : (result =
-          (initialSavings + monthlyDeposits) * (1 + interestRate / 12 / 100));
-    if (b == 12) {
-      yearlyAmounts.push(result);
-      b = 0;
-    }
-    lastValue = result;
     i++;
-    b++;
+    let principal = lastValue != 0 ? lastValue : initialSavings;
+    result = applyInterestRate(principal, monthlyDeposits, interestRate);
+    lastValue = result;
+    i % 12 == 0 && annualAmounts.push(result);
   }
-  return yearlyAmounts;
+
+  return annualAmounts;
 };
 
 app.get("/", (req, res) => {
   // Extract amounts from request
   const { initialSavings, monthlyDeposits, interestRate } = req.query;
-  // Parse them into numbers
-  const parsedInitialSavings =
-    typeof initialSavings === "string" && Number(initialSavings);
-  const parseMonthlyDeposits =
-    typeof monthlyDeposits === "string" && Number(monthlyDeposits);
-  const parseInterestRate =
-    typeof interestRate === "string" && Number(interestRate);
+
+  // Format strings into numbers
+  const parsedInitialSavings = initialSavings && Number(initialSavings);
+  const parseMonthlyDeposits = monthlyDeposits && Number(monthlyDeposits);
+  const parseInterestRate = interestRate && Number(interestRate);
+
+  // Check that  we have all the data we need to calculate
+  const receivedNecessaryData =
+    initialSavings && monthlyDeposits && interestRate;
 
   // Calculate savings over time
-  const savingsOverTime = calculateSavings(
-    parsedInitialSavings,
-    parseMonthlyDeposits,
-    parseInterestRate
-  );
+  const savingsOverTime = receivedNecessaryData
+    ? calculateSavings(
+        parsedInitialSavings as number,
+        parseMonthlyDeposits as number,
+        parseInterestRate as number
+      )
+    : Array.from({ length: 50 }, () => null);
 
   // Send savings over time
   res.send(JSON.stringify(savingsOverTime));
