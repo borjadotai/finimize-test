@@ -1,7 +1,6 @@
 import React from 'react'
-import './App.css'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
-import Savings from './containers/Savings/Savings'
+import Savings from './containers/Savings'
 import theme from './theme'
 
 const defaultTheme = extendTheme(theme)

@@ -1,5 +1,5 @@
 {
-  "name": "fullstack-dev-challenge",
+  "name": "finimize-borjaleiva",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -10,12 +10,16 @@
     "server": "ts-node server.ts",
     "types": "tsc",
     "client": "node scripts/start-client.js",
-    "install": "cd client && yarn install && cd .."
+    "install": "cd client && yarn install && cd ..",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register './*.test.ts'"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.14",
     "@types/cors": "^2.8.9",
     "@types/express": "^4.17.9",
+    "@types/mocha": "^8.2.0",
     "@types/node": "^14.14.14",
+    "chai": "^4.2.0",
     "concurrently": "5.3.0",
     "mocha": "^8.2.1",
     "ts-node": "^9.1.1",
