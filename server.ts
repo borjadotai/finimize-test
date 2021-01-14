@@ -1,4 +1,5 @@
 import express from "express";
+import { calculateSavings } from "./savings";
 
 const app = express();
 
@@ -23,37 +24,11 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-// Calculates current month saving applying corresponding interest
-const applyInterestRate = (
-  principal: number,
-  monthlyDeposit: number,
-  interestRate: number
-) => (principal + monthlyDeposit) * (1 + interestRate / 12 / 100);
-
-// Calculates all savings monthly and returns annual ones
-const calculateSavings = (
-  initialSavings: number,
-  monthlyDeposits: number,
-  interestRate: number
-) => {
-  let i = 1;
-  let lastValue = initialSavings;
-  let annualAmounts = [];
-  let result;
-  while (i <= 600) {
-    result = applyInterestRate(lastValue, monthlyDeposits, interestRate);
-    lastValue = result;
-    i % 12 == 0 && annualAmounts.push(result);
-    i++;
-  }
-
-  return annualAmounts;
-};
-
 app.get("/", (req, res) => {
   // Extract amounts from request
   const { initialSavings, monthlyDeposits, interestRate } = req.query;
 
+  // Validation & error handling
   if (!initialSavings) {
     return res.status(400).send({
       message: "Initial savings is missing!",
