@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-app.get("/", (req, res) => {
+app.get("/savings", (req, res) => {
   // Extract amounts from request
   const { initialSavings, monthlyDeposits, interestRate } = req.query;
 

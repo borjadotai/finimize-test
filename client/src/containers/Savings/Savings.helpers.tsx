@@ -19,7 +19,7 @@ export enum ValueTypes {
 }
 
 export const fetchData = (state: StateType, setData: Dispatch<SetStateAction<number[]>>) =>
-    fetch(buildQuery(state, 'http://localhost:3001'))
+    fetch(buildQuery(state, 'http://localhost:3001/savings'))
         .then((res) => {
             if (!res.ok) {
                 return Promise.reject({
