@@ -15,7 +15,7 @@ Once I got that out of the way and had everything working, I worked on the follo
 
 - Get the UI to store users input within state
 - Communicate with the api sending the inputed values
-- Get the api to receive such data, handle it and return the expect values
+- Get the api to receive such data, handle it and return the expected values
   - Took care of CORS
   - Error handling, data validation and formatting
   - Actual savings calculations
@@ -42,4 +42,4 @@ I could've kept on adding things but I think that the current product and codeba
 - Put the user first and improved the product to, while keeping it simple and clean, give a more informative experience to the user
 - Didn't test extenisvely but showed how I can setup test frameworks and some basic unit tests for each type (didn't wanna go into integration / e2e)
 
-I would probably improve the user inputs validation and maybe add a few things here and there but overall, for the given timeline, I am pretty happy with the state of the product! 💪😜
+I would probably improve the user inputs validation and maybe add a few things here and there (maybbe deboucing the inputs so we make less requests) but overall, for the given timeline, I am pretty happy with the state of the product! 💪😜
