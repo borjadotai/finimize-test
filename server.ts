@@ -54,23 +54,35 @@ app.get("/", (req, res) => {
   // Extract amounts from request
   const { initialSavings, monthlyDeposits, interestRate } = req.query;
 
-  // Format strings into numbers
-  const parsedInitialSavings = initialSavings && Number(initialSavings);
-  const parseMonthlyDeposits = monthlyDeposits && Number(monthlyDeposits);
-  const parseInterestRate = interestRate && Number(interestRate);
+  if (!initialSavings) {
+    return res.status(400).send({
+      message: "Initial savings is missing!",
+    });
+  }
 
-  // Check that  we have all the data we need to calculate
-  const receivedNecessaryData =
-    initialSavings && monthlyDeposits && interestRate;
+  if (!monthlyDeposits) {
+    return res.status(400).send({
+      message: "Monthly deposits is missing!",
+    });
+  }
+
+  if (!interestRate) {
+    return res.status(400).send({
+      message: "Interest rate is missing!",
+    });
+  }
+
+  // Format strings into numbers
+  const parsedInitialSavings = Number(initialSavings);
+  const parseMonthlyDeposits = Number(monthlyDeposits);
+  const parseInterestRate = Number(interestRate);
 
   // Calculate savings over time
-  const savingsOverTime = receivedNecessaryData
-    ? calculateSavings(
-        parsedInitialSavings as number,
-        parseMonthlyDeposits as number,
-        parseInterestRate as number
-      )
-    : Array.from({ length: 50 }, () => null);
+  const savingsOverTime = calculateSavings(
+    parsedInitialSavings,
+    parseMonthlyDeposits,
+    parseInterestRate
+  );
 
   // Send savings over time
   res.send(JSON.stringify(savingsOverTime));

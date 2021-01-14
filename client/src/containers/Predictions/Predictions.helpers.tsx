@@ -1,6 +1,6 @@
 // This amount formatter could be re-used as a util across the project
 export const formatAmount = (amount: number) => {
-    const number = typeof amount === 'number' ? amount.toFixed(0).toString() : 'N/A'
+    const number = amount.toFixed(0).toString()
     if (number.length > 3 && number.length < 7) {
         return `${number.slice(0, -3)},${number.slice(number.length - 3)}`
     }
@@ -15,10 +15,6 @@ export const formatAmount = (amount: number) => {
 
 export const calculatePredictionAmounts = (data: number[]) => {
     const amounts = [data[9], data[19], data[29], data[39], data[49]]
-    let predictions: string[] = []
-    amounts.forEach((amount) => {
-        let formattedAmount = formatAmount(amount)
-        predictions.push(formattedAmount)
-    })
-    return predictions
+    const formattedAmounts = amounts.map((amount) => formatAmount(amount))
+    return formattedAmounts
 }

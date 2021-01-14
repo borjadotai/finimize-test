@@ -1,18 +1,22 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { Heading, VStack } from '@chakra-ui/react'
-import Input from '../components/Input'
-import Slider from '../components/Slider'
-import LineChart from '../components/LineChart'
-import { StateType, ValueTypes } from './Savings.helpers'
+import { Input, Slider, LineChart } from '../../components'
+import {
+    StateType,
+    ValueTypes,
+    defaultInterestRate,
+    minInterest,
+    maxInterest,
+    interestStep,
+} from './Savings.helpers'
 
 type Props = {
     state: StateType
     setState: Dispatch<SetStateAction<StateType>>
-    defaultInterestRate: number
     data: number[]
 }
 
-const SavingsForm = ({ state, setState, defaultInterestRate, data }: Props) => {
+const SavingsForm = ({ state, setState, data }: Props) => {
     const handleChange = (type: ValueTypes, val: number) =>
         state[type] !== val && setState({ ...state, [type]: val })
 
@@ -22,12 +26,16 @@ const SavingsForm = ({ state, setState, defaultInterestRate, data }: Props) => {
             <Input
                 label="Initial Savings amount"
                 name="Initial Savings"
+                type="number"
+                min="0"
                 placeholder="5000"
                 onChange={(e) => handleChange(ValueTypes.InitialSavings, parseInt(e.target.value))}
             />
             <Input
                 label="Monthly Deposit"
                 name="Monthly Deposit"
+                type="number"
+                min="0"
                 placeholder="100"
                 onChange={(e) => handleChange(ValueTypes.MonthlyDeposits, parseInt(e.target.value))}
             />
@@ -35,9 +43,9 @@ const SavingsForm = ({ state, setState, defaultInterestRate, data }: Props) => {
                 label={`Interest Rate (${state.interestRate}%)`}
                 name="Interest Rate"
                 defaultValue={defaultInterestRate}
-                min={0}
-                max={15}
-                step={0.5}
+                min={minInterest}
+                max={maxInterest}
+                step={interestStep}
                 onChangeEnd={(val) => handleChange(ValueTypes.InterestRate, val)}
             />
             <LineChart
