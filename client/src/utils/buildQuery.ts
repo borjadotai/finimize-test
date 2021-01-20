@@ -5,7 +5,7 @@ export const buildQuery = (
     const queries: string[] = []
     Object.keys(queryObject).forEach((key) => {
         const value = queryObject[key]
-        if (value) {
+        if (value || value === 0) {
             queries.push(`${key}=${value}`)
         }
     })

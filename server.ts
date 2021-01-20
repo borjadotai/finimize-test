@@ -41,7 +41,7 @@ app.get("/savings", (req, res) => {
     });
   }
 
-  if (!interestRate) {
+  if (!interestRate && interestRate !== "0") {
     return res.status(400).send({
       message: "Interest rate is missing!",
     });

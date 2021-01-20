@@ -18,7 +18,7 @@ const Savings = () => {
     })
     // Fetch data from api on inputs change
     useEffect(() => {
-        if (formState.interestRate && formState.monthlyDeposits) {
+        if (formState.initialSavings && formState.monthlyDeposits) {
             fetchData(formState, setAnnualSavings)
         }
     }, [formState])
